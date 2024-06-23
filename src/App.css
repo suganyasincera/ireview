@@ -1,38 +1,184 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:'poppins';
+}
+
+::-webkit-scrollbar{
+  /* width: 10px; */
+  display: none;
+}
+
+
+
+
 .App {
-  text-align: center;
+ height: 100vh;
+overflow: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.rightmain{
+  padding: 15px;
+  overflow:scroll;
+  height: 100vh;
+  overflow-x:hidden;
+}
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+.headingtext{
+  font-size:30px;
+  font-weight:600;
+  color:#2D3748;
+}
+.mainpara{
+  padding-left:3%;
+  padding-right:3%;
+  padding-top:3%;
+}
+.parastyle{
+  text-align:center;
+  background-color:#F8FAFD;
+  border-radius:5;
+  padding:3%;
+  font-size:15px;
+  font-weight:300;
+  color:#041E49;
+}
+.fileupload{
+  padding:3%;
+  height:600px;
+  background-color:#2D3748;
+  border-radius:5px;
+  align-items:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-around;
+}
+.uploadh4{
+  color:#ffffff;
+  font-size:28px;
+  font-weight:500;
+}
+.uploadcard{
+  height: 300px !important;
+  width:70%;
+  background-color:#ffffff;
+  align-items:center;
+  justify-content:space-evenly;
+  border-radius:3px;
+  
+}
+.uploadcardh6{
+  font-size:17px;
+  font-weight:275px;
+  color:#2D3748;
+}
+.fileuploadbuttondark{
+  font-size:15px;
+  font-weight:500;
+  height:50px;
+  width:140px;
+}
+.fileuploadbutton{
+  font-size:15px;
+  font-weight:600;
+  color:#ffffff;
+  border:none !important;
+  height:50px;
+  width:150px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.sidedrawer{
+  background-color:#2D3748;
+  height:100vh;
+ padding:5px;
+ padding-top:15px;
+ padding-bottom:15px;
+ display:flex;
+ justify-Content:space-between;
+ flex-direction:column;
+}
+.sidemainhead{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.sidemainheadimg{
+  height:51px;
+  width:60px;
+  padding-right:10px;
+}
+
+.sidemainheadimgh6{
+ color:#ffffff;
+ align-items:center;
+    justify-content:center;
+    display:flex;
+    font-size:20px;
+    font-weight:600;
+}
+.sidebuttonmain{
+  align-items:center;
+  justify-content:center;
+  display:flex;
+  padding-top:40px;
+}
+.sidedrawerbutton{
+  font-size :14px !important;
+  font-weight:500;
+  color:#E5E5E5;
+  background-color:#50C878 !important;
+  border:none !important;
+  height:48px;
+  width:200px;
+  align-items:center;
+}
+.sidedrawerlogoutmain{
+  display:flex;
+  align-items:center
+}
+.sidedrawerlogouth6{
+  color:#ffffff;
+  font-size:16px;
+  font-weight:600;
+  padding-left:10px;
+}
+.sidedrawerversionstyle{
+  color:rgba(229, 229, 229, 0.4);
+  font-size:11px;
+  font-weight:500;
+  padding-top:20px;
+}
+
+
+
+.img{
+  background-image:url('./components/assets/img.png');
+}
+
+.signup{
+  background-image: url('./components/assets/Signup.png');
+}
+.align{
+  padding: 0%;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .color{
+    color: #50C878;
   }
-  to {
-    transform: rotate(360deg);
+  .content{
+    margin-left: 7.8%;
+    margin-right: 7.8%;
+    
+
   }
-}
+  .termsandconditionsheading{
+    color: #50C878;
+    font-weight: 500px;
+    font-size: 25px;
+    
+  }
