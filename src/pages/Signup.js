@@ -17,6 +17,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { useNavigate } from 'react-router-dom';
 import PasswordStrengthBar from 'react-password-strength-bar';
 import TermsandCondition from './TermsandCondition';
+import PrivacyPolicy from './PrivacyPolicy';
 
 const defaultTheme = createTheme();
 
@@ -25,7 +26,8 @@ export default function Signup() {
  const [showPassword, setShowPassword] = React.useState(false);
  const [formErrors, setFormErrors] = React.useState({});
  const [passwordStrength, setPasswordStrength] = React.useState(0);
- const [showModal, setShowModal] = React.useState(false);
+ const [showTCModal, setShowTCModal] = React.useState(false);
+ const [showPPModal, setShowPPModal] =React.useState(false);
  const [isTermsAccepted, setIsTermsAccepted] = React.useState(false);
  const [password, setPassword] = React.useState('');
  const navigate = useNavigate();
@@ -43,8 +45,10 @@ const confirmPasswordRef = useRef(null);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
-const handleOpenModal = () => setShowModal(true);
-const handleCloseModal = () => setShowModal(false);
+const handleOpenTCModal = () => setShowTCModal(true);
+const handleCloseTCModal = () => setShowTCModal(false);
+const handleOpenPPModal = () => setShowPPModal(true);
+const handleClosePPModal = () => setShowPPModal(false);
 const handlePasswordChange = (event) => {
   setPassword(event.target.value);
  };
@@ -237,9 +241,12 @@ event.preventDefault()
       </div>
       <div>
       <label style={{fontSize:15,color:"#5e6670"}}>&nbsp; I agree to the &nbsp; </label> 
-               <span onClick={handleOpenModal} style={{ textDecoration: 'underline', cursor: 'pointer', color: '#50c878' }}>  Terms and Conditions</span>
+               <span onClick={handleOpenTCModal} style={{ textDecoration: 'underline', cursor: 'pointer', color: '#50c878' }}>  Terms and Conditions</span>
+               <span style={{fontSize:15,color:"#5e6670"}}>&nbsp; and &nbsp;</span>
+               <span onClick={handleOpenPPModal} style={{ textDecoration: 'underline', cursor: 'pointer', color: '#50c878' }}>Privacy Policy</span>
+<TermsandCondition show={showTCModal} handleClose={handleCloseTCModal} onAccept={handleAcceptTerms} checked={isTermsAccepted} />
+<PrivacyPolicy showPP={showPPModal} handleClosePP={handleClosePPModal} onAcceptPP={handleAcceptTerms} checked={isTermsAccepted} />
 
-<TermsandCondition show={showModal} handleClose={handleCloseModal} onAccept={handleAcceptTerms} checked={isTermsAccepted} />
 </div>
 </div>
 
