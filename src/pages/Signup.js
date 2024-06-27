@@ -91,10 +91,11 @@ event.preventDefault()
 
   try {
     // Send data to your API endpoint
-    const response = await fetch(apiUrl+'/api/userDetails/signUp', {
+    const response = await fetch(apiUrl+'/userDetails/signUp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        
       },
       body: JSON.stringify(data),
     });

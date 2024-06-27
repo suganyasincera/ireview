@@ -15,7 +15,7 @@ export default function PreviousResults() {
  
     const fetchResults = () => {
       axios
-        .get(`${apiUrl}/api/reviewDetails/getReviewResults`, {
+        .get(`${apiUrl}/reviewDetails/getReviewResults`, {
           headers: {
             'Content-Type': 'application/json',
             Accept: "application/json",

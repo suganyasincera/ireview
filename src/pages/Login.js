@@ -151,7 +151,7 @@ const handlePasswordChange = (e) => {
   setIsLoading(true); // Set loading state to true
   try {
     const response = await fetch(
-     apiUrl+ "/api/userDetails/signIn",
+     apiUrl+ "/userDetails/signIn",
       {
         method: "POST",
         headers: {

@@ -94,7 +94,7 @@ const handleUpload = async () => {
 
      }}
      console.log('Image Text:', allText);
-     const apiUrlchatgpt = allText.length > 1000 ? "http://54.183.33.139:3000/api/gpt41106preview" : "http://54.183.33.139:3000/api/gpt35turbo";
+     const apiUrlchatgpt = allText.length > 1000 ? apiUrl+"/gpt/gpt41106preview" : apiUrl+"/gpt/gpt35turbo";
            
             // eslint-disable-next-line no-loop-func
             const responses = await Promise.all(payloads.map(async (payload) => {
@@ -143,7 +143,7 @@ const handleUpload = async () => {
   const fileNames = uploadedFiles.map((file) => file.name);
 
   const response = await fetch(
-    apiUrl+ "/api/reviewDetails/createReview",
+    apiUrl+ "/reviewDetails/createReview",
      {
        method: "POST",
        headers: {

@@ -43,7 +43,7 @@ function App() {
       <Home/>
       </PrivateRoute>} />
       <Route exact path='/Result' element={<Result/>} />
-      <Route exact path='/Previous' element={<Previous/>} />
+      <Route exact path='/Previous' element={<Previous/>} />Return
       <Route exact path='/Signup' element={<Signup/>} />
       <Route exact path='/Pdf' element={<Pdf/>} />
       <Route exact path='/ResultPdf' element={<ResultPdf/>} />
