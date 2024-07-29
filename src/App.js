@@ -14,6 +14,7 @@ import Return from './components/Return';
 import Login from './pages/Login';
 import LoginGoogle from './pages/LoginGoogle';
 import PrivateRoute from './pages/PrivateRoute';
+import PricingTable from './pages/PricingTable';
 
 import { useSelector } from 'react-redux';
 function App() {
@@ -49,6 +50,7 @@ function App() {
       <Route exact path='/ResultPdf' element={<ResultPdf/>} />
       <Route exact path='/CheckoutForm' element={<CheckoutForm/>} /> 
       <Route exact path="/Return" element={<Return />} />
+      <Route exact path="/PricingTable" element={<PricingTable />} />
     </Routes>
 
     </Elements>
