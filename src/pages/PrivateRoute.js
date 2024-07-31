@@ -5,7 +5,12 @@ import { useSelector } from 'react-redux';
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => !!state.form.loginResponse.userToken); // Adjust according to your state structure
 
-  return isAuthenticated ? children : <Navigate to="/" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+
+  return children;
 };
+
 
 export default PrivateRoute;

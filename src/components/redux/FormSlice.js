@@ -1,3 +1,4 @@
+
 import { createSlice } from '@reduxjs/toolkit';
 
 
@@ -16,6 +17,8 @@ const FormSlice = createSlice({
   name:"",
   email:"",
   userToken:"",
+  balanceReview:0,
+  subscriptionEnds:0
 
  },
  previous:[{}],

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Upload from './assets/documentupload.png';
@@ -9,22 +9,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeApiresponse, changeFilename } from '../components/redux/FormSlice';
 import * as pdfjs from "pdfjs-dist";
 import { TiDeleteOutline } from "react-icons/ti";
-
+import axios from 'axios';
 const workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 export default function Fileupload() {
   const dispatch = useDispatch();
-  const profile = useSelector((state) => state.form.profile);
-  const login = useSelector((state) => state.form.loginResponse);
-  console.log("profile", profile);
-  console.log("login", login);
   const token = localStorage.getItem('accessToken');
-
+  
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [responses, setResponses] = useState([]);
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [profile, setProfile] = useState({});
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_BASE_URL;
 
@@ -61,7 +58,35 @@ export default function Fileupload() {
       setUploadedFiles(updatedFiles);
     }
   };
-
+  const fetchResults = () => {
+    axios
+      .get("https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/getProfile", {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: "application/json",
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        const profileArray = response.data;
+        const profileObject = profileArray.reduce((acc, item) => {
+          return {
+            ...acc,
+            subscriptionEnds: item.subscriptionEnds,
+            balanceReview: item.balanceReview,
+          };
+        }, {});
+        setProfile(profileObject);
+      })
+      .catch((error) => console.error('Error fetching company data:', error));
+  };
+  
+  
+  console.log("Profile",profile)
+  useEffect(() => {
+    fetchResults();
+    
+  }, []);
   const submitFiles = async () => {
     setLoading(true);
     const allResponses = [];
@@ -88,7 +113,7 @@ export default function Fileupload() {
       }
 
       console.log('Extracted Text:', allText);
-      const apiUrlchatgpt = allText.length > 1000 ? `${apiUrl}/gpt/gpt41106preview` : `${apiUrl}/gpt/gpt35turbo`;
+      const apiUrlchatgpt = allText.length > 200000 ? `${apiUrl}/gpt/gpt41106preview` : `${apiUrl}/gpt/gpt35turbo`;
 
       const responses = await Promise.all(payloads.map(async (payload) => {
         const response = await fetch(apiUrlchatgpt, {
@@ -145,19 +170,33 @@ export default function Fileupload() {
       if (response.ok) {
         const responseData = await response.json();
         console.log("Response Data:", responseData);
+        if(responseData==="subscribe"){
+          navigate("/PricingTable")
+        }else{
+        navigate("/Result")}
       } else {
         console.error("Failed to submit responses to the backend.");
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
     }
     setLoading(false);
   };
 
   const handleUpload = async () => {
     setButtonClicked(true);
+    if (profile.subscriptionEnds) {
+      const subscriptionEndDate = new Date(profile.subscriptionEnds);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Set to the start of the day
+    
+    if(profile.balanceReview>0 || subscriptionEndDate < today){
+      await submitFiles();
+   
+   }
+   else{
     navigate("/PricingTable");
-    await submitFiles();
+    return;
+   }}
   };
 
   return (

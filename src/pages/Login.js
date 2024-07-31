@@ -181,10 +181,14 @@ const handlePasswordChange = (e) => {
       localStorage.setItem('accessToken', responseData.id);
       localStorage.setItem('username', responseData.firstName);
       localStorage.setItem('storedEmail', responseData.email);
+      localStorage.setItem('balanceReview', responseData.balanceReview);
+      localStorage.setItem('subscriptionEnds', responseData.subscriptionEnds);
       dispatch(changeLoginResponse({
         name:responseData.firstName,
         email:responseData.email,
         userToken:responseData.id,
+        balanceReview:responseData.balanceReview,
+    subscriptionEnds: responseData.subscriptionEnds
     
     }));
     navigate("/Home");

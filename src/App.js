@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import {Route,Routes,Navigate,useNavigate } from 'react-router-dom';
+import {Route,Routes,Navigate,useNavigate,useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Result from './pages/Result';
@@ -15,23 +15,28 @@ import Login from './pages/Login';
 import LoginGoogle from './pages/LoginGoogle';
 import PrivateRoute from './pages/PrivateRoute';
 import PricingTable from './pages/PricingTable';
+import PaymentSuccess from './pages/PaymentSuccess';
+
+import PlanDetails from './pages/PlanDetails';
 
 import { useSelector } from 'react-redux';
 function App() {
   const stripePromise = loadStripe('pk_test_51Ou7j0SIgrfsrVy23Jru7s4v44HEHwSE7yrts3yHXng0m09mAJOYqznTkwR2tfEl9MX5VxveN7hzY2pHe3ykr38M00bbji3gDO');
+  //const stripePromise = loadStripe('pk_test_51PiW61BXJEI3LbRpLWSFcDhRBYbwh4KBkemAyYhZrOlEVXdZvSePkAhcXvQn8v8vTfvWvZwDxyszaB48nUP49Nit00qcGiNMCU');
   const isAuthenticated = useSelector((state) => !!state.form.loginResponse.userToken);
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
     // Allow direct access to the signup page without requiring a token
-    if (!isAuthenticated && window.location.pathname!== '/Signup') {
+    if (!isAuthenticated && location.pathname!== '/Signup') {
       navigate('/');
     }
   
     // Prevent access to the home page without logging in
-    if (isAuthenticated && window.location.pathname === '/') {
+    if (isAuthenticated && (location.pathname === '/'&& location.pathname=== '/Signup')) {
       navigate('/Home');
     }
-  }, [isAuthenticated, navigate, window.location.pathname]);
+  }, [isAuthenticated, navigate,location.pathname]);
   
   return (
   
@@ -44,13 +49,16 @@ function App() {
       <Home/>
       </PrivateRoute>} />
       <Route exact path='/Result' element={<Result/>} />
-      <Route exact path='/Previous' element={<Previous/>} />Return
+      <Route exact path='/Previous' element={<Previous/>} />
       <Route exact path='/Signup' element={<Signup/>} />
       <Route exact path='/Pdf' element={<Pdf/>} />
       <Route exact path='/ResultPdf' element={<ResultPdf/>} />
       <Route exact path='/CheckoutForm' element={<CheckoutForm/>} /> 
       <Route exact path="/Return" element={<Return />} />
       <Route exact path="/PricingTable" element={<PricingTable />} />
+      <Route exact path="/PricingTable/PaymentSuccess" element={<PrivateRoute><PaymentSuccess /></PrivateRoute>} />
+      
+      <Route exact path="/PricingTable/PlanDetails" element={<PlanDetails />} />
     </Routes>
 
     </Elements>

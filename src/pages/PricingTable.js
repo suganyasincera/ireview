@@ -1,42 +1,62 @@
-import React from 'react';
-import "./PricingTable.css";
+import React, { useState, useEffect } from 'react';
+import './PricingTable.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Sidedrawer from '../components/Sidedrawer';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button, Card } from 'react-bootstrap'
-const plans = [
-  {
-    title: 'For the price of a coffee',
-    description: 'Know what you are signing up for. Know the details of your employment contract, compensation, performance incentives, non-compete and other clauses you must be aware and careful about.',
-    price: '$5.99',
-    features: 'Review 1 agreement, continued online access anytime you need the documents or the summary.',
-    tier: 'Tier 1'
-  },
-  {
-    title: 'For the price of a lunch',
-    description: 'Know what you are signing up for. Know the details of your employment contract, compensation, performance incentives, non-compete and other clauses you must be aware and careful about.',
-    price: '$17.99',
-    features: 'Review 5 agreements, continued online access anytime you need the documents or the summary.',
-    tier: 'Tier 2'
-  },
-  {
-    title: 'Anytime buffet, pay for 1 meal a month',
-    description: 'Know what you are signing up for. Know the details of your employment contract, compensation, performance incentives, non-compete and other clauses you must be aware and careful about.',
-    price: '$19.99/month or $175/year',
-    features: 'Review unlimited agreements, continued online access anytime you need the documents or the summary. Cancel any time.',
-    tier: 'Tier 3'
-  }
-];
+import { Button, Card } from 'react-bootstrap';
+import { FaCheckCircle } from 'react-icons/fa';
+import axios from 'axios';
 
 const PricingTable = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const profile = useSelector((state) => state.form.profile);
   const login = useSelector((state) => state.form.loginResponse);
-  console.log("profile", profile);
-  console.log("login", login);
+  const [plans, setPlans] = useState([]);
   const username = localStorage.getItem('username');
+  const token = localStorage.getItem('accessToken');
+
+  const fetchResults = () => {
+    axios
+      .get("https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/planDetails", {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: "application/json",
+          Authorization: token,
+        },
+      })
+      .then((response) => setPlans(response.data))
+      .catch((error) => console.error('Error fetching company data:', error));
+  };
+
+  const handleCheckout = (planId) => {
+    axios
+      .post(
+        "https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/createCheckoutSession",
+        { planId: planId },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: "application/json",
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        if (response && response.data) {
+          window.location.href = response.data; // Redirect to the URL from the API response
+        } else {
+          console.error('Error: Invalid response format', response);
+        }
+      })
+      .catch((error) => console.error('Error creating checkout session:', error));
+  };
+
+  useEffect(() => {
+    fetchResults();
+  }, []);
+
   return (
     <div className='App'>
       <Row>
@@ -47,24 +67,30 @@ const PricingTable = () => {
           <div className='rightmain'>
             <div className='heading'>
               <h3 className='headingtext'>Welcome {username}</h3>
-              {/* <img src={Avatar} alt='avat' /> */}
             </div>
-
             <div className='mainpara'>
               <h3 className='headingtext'>Choose your plan</h3>
             </div>
             <Card className="plans">
               {plans.map((plan, index) => (
                 <div key={index} className="plan">
-                  <h2>{plan.title}</h2>
-                  <p>{plan.description}</p>
-                  <h3>{plan.price}</h3>
-                  <p className="features">{plan.features}</p>
-                  <Button className="buy-btn" onClick={()=>navigate("./CheckoutForm")}>Buy Now</Button>
+                  <Row>
+                    <Col xs={1} className="icon-col">
+                      <FaCheckCircle className="icon" />
+                    </Col>
+                    <Col xs={8} className="description-col">
+                      <h2>{plan.planName}</h2>
+                      <p>{plan.description}</p>
+                      <p className="features">{plan.features}</p>
+                    </Col>
+                    <Col xs={3} className="price-col">
+                      <h3>{plan.price.currencySymbol}{plan.price.amount} {plan.price.currency}</h3>
+                      <Button className="buy-btn" onClick={() => handleCheckout(plan.id)}>Buy Now</Button>
+                    </Col>
+                  </Row>
                 </div>
               ))}
             </Card>
-
           </div>
         </Col>
       </Row>
