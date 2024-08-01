@@ -1,18 +1,22 @@
-
 import './PaymentSuccess.css';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Row, Col } from 'react-bootstrap';
-import { FaCheckCircle, FaTimesCircle, } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import Sidedrawer from '../components/Sidedrawer';
+
 const PaymentSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [params, setParams] = useState({});
   const [message, setMessage] = useState('');
+  const username = localStorage.getItem('username');
+
   const handleBackToHome = () => {
     navigate('/home');
   };
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const success = searchParams.get('success');
@@ -34,7 +38,7 @@ const PaymentSuccess = () => {
       subscriptionEnds,
       paymentStatus,
       price,
-      date:formattedDate,
+      date: formattedDate,
     });
 
     if (success === 'true') {
@@ -43,57 +47,54 @@ const PaymentSuccess = () => {
       setMessage('Payment Failed. Please try again.');
     }
   }, [location.search]);
+
   return (
-    <div className="App">
-      <Row>
-        <Col lg={2} sm={3} xs={2} className="sidebar">
-          <div className="sidebar-content">
-            <div className="logo">
-              <img src="/path/to/logo.png" alt="iReview.ai Logo" />
-            </div>
-            <Button className="upload-btn">Upload New Contract</Button>
-            <div className="logout">
-              <Button className="logout-btn">Log out</Button>
-              <span className="version">Version 1.0</span>
-            </div>
-          </div>
+    <div className='App'>
+      <Row style={{width:"100%"}} >
+        <Col lg={2} sm={3} xs={2} >
+          <Sidedrawer />
         </Col>
-        <Col lg={10} sm={9} xs={10}>
-          <div className="main-content">
-            <Card className="payment-card">
-              <Card.Body>
-                {params.success === 'true' ?(
-                <div>
-                  <FaCheckCircle className="success-icon" />
-                </div>):(<div>
-                  <FaTimesCircle className="failure-icon" />
-                </div>)}
-                <h2>{message}</h2>
-                <h3>$17.99</h3>
-                <hr />
-                {params.success === 'true' ? (
-                <div className="payment-details">
-                  <p>Ref Number: {params.paymentToken}</p>
-                  <p>Plan Name: {params.subscriptionPlan}</p>
-                  <p>Payment Time: {params.date}</p>
-                  <p>Payment Status: {params.paymentStatus}</p>
-              
-                  <p>Total Amount: {params.price}</p>
-                </div>):(
-                  <div className="payment-details">
-                  <p>Ref Number: {params.paymentToken}</p>
-                  <p>Plan Name: {params.subscriptionPlan}</p>
-                  <p>Payment Time: {params.date}</p>
-                  <p>Payment Status: {params.paymentStatus}</p>
-              
-          
-                </div>
-                )}
-                <Button className="back-home-btn" onClick={handleBackToHome}>
-                  Back to Home
-                </Button>
-              </Card.Body>
-            </Card>
+        <Col lg={10} sm={9} xs={10} style={{backgroundColor: "#2D3748"}}>
+          <div className='rightmain'>
+            <div className='heading'>
+              <h3 className='headingtext'>Welcome {username}</h3>
+            </div>
+            <div className='main-content' style={{ backgroundColor: '#2D3748', height: 'fit-content', marginTop: 30, borderRadius: 6}}>
+              <Card style={{ alignItems: 'center',width:"60%",justifyContent:"center",display:"flex"}}>
+                <Card.Body>
+                  {params.success === 'true' ? (
+                    <div style={{alignItems:"center",display:"flex",justifyContent:"center",marginTop:5,marginBottom:9}}>
+                      <FaCheckCircle className='success-icon' />
+                    </div>
+                  ) : (
+                    <div style={{alignItems:"center",display:"flex",justifyContent:"center",marginTop:5,marginBottom:9}}>
+                      <FaTimesCircle className='failure-icon' />
+                    </div>
+                  )}
+                  <h2>{message}</h2>
+                  <hr />
+                  {params.success === 'true' ? (
+                    <div className='payment-details'>
+                      <p>Ref Number: {params.paymentToken}</p>
+                      <p>Plan Name: {params.subscriptionPlan}</p>
+                      <p>Payment Time: {params.date}</p>
+                      <p>Payment Status: {params.paymentStatus}</p>
+                      <p>Total Amount: ${params.price}</p>
+                    </div>
+                  ) : (
+                    <div className='payment-details'>
+                      <p>Ref Number: {params.paymentToken}</p>
+                      <p>Plan Name: {params.subscriptionPlan}</p>
+                      <p>Payment Time: {params.date}</p>
+                      <p>Payment Status: {params.paymentStatus}</p>
+                    </div>
+                  )}
+                  <Button className='back-home-btn' onClick={handleBackToHome}>
+                    Back to Home
+                  </Button>
+                </Card.Body>
+              </Card>
+            </div>
           </div>
         </Col>
       </Row>
