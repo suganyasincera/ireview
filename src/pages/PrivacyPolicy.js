@@ -6,7 +6,8 @@ import '../App.css';
 function PrivacyPolicy({ showPP, handleClosePP, onAcceptPP }) {
   return (
     <div>
-    <Modal show={showPP} onHide={handleClosePP}>
+    <Modal show={showPP} onHide={handleClosePP} dialogClassName="modal-90w"
+        fullscreen="true" size="xl">
       <Modal.Header closeButton>
         <Modal.Title style={{color: "#50C878",
     fontWeight: 500,

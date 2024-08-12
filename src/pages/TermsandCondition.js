@@ -6,7 +6,8 @@ import '../App.css';
 function TermsandCondition({ show, handleClose, onAccept }) {
   return (
     <div>
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose}dialogClassName="modal-90w"
+        fullscreen="true" size="xl">
       <Modal.Header closeButton>
         <Modal.Title style={{color: "#50C878",
     fontWeight: 500,
