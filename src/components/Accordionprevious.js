@@ -22,7 +22,7 @@ export default function Accordionprevious() {
     { label: "Causes For Termination",content:result.causes||[]},
     { label: "Notice Period",content:result.notice||[]  },
     { label: "Non-Solicitation",content:result.nonsoliicitation||[]},
-    { label: "Bond Period",content:result.bond||[]},
+    { label: "Term Of Agreement",content:result.termofagreement||[]},
     // Add more tabs as needed
   ];
   

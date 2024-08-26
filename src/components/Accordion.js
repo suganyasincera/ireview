@@ -22,7 +22,7 @@ export default function AccordionUsage() {
     { label: "Causes For Termination", content: "" },
     { label: "Notice Period", content: "" },
     { label: "Non-Solicitation", content: "" },
-    { label: "Bond Period", content: "" },
+    { label: "Term of Agreement", content: "" },
     // Add more tabs as needed
   ];
   const mergedArray = tabs.map((item, index) => ({

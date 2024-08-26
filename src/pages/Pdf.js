@@ -48,7 +48,7 @@ const  result = useSelector((state) => state.form.previous.reviewResult.reviewDa
       <p>{result?result.nonsoliicitation:""}</p>
       <br />
       <h4 className='color'>Bond Period</h4>
-      <p>{result?result.bond:""}</p>
+      <p>{result?result.termofagreement:""}</p>
       <br />
       </div>
     </div>

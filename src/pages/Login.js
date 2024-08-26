@@ -56,7 +56,7 @@ const googlelogin = async(codeResponse)=>{
   setIsLoading(true); // Set loading state to true
   try {
     const response = await fetch(
-     apiUrl+ "/api/userDetails/googleSignIn",
+     "https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/googleSignIn",
       {
         method: "POST",
         headers: {
@@ -67,6 +67,7 @@ const googlelogin = async(codeResponse)=>{
         body: JSON.stringify({"token":codeResponse.access_token}),
       }
     );
+    console.log("res",response)
     if (response.ok) {
     
 
