@@ -23,7 +23,7 @@ import { useSelector } from 'react-redux';
 function App() {
   const stripePromise = loadStripe('pk_test_51Ou7j0SIgrfsrVy23Jru7s4v44HEHwSE7yrts3yHXng0m09mAJOYqznTkwR2tfEl9MX5VxveN7hzY2pHe3ykr38M00bbji3gDO');
   //const stripePromise = loadStripe('pk_test_51PiW61BXJEI3LbRpLWSFcDhRBYbwh4KBkemAyYhZrOlEVXdZvSePkAhcXvQn8v8vTfvWvZwDxyszaB48nUP49Nit00qcGiNMCU');
-  const isAuthenticated = useSelector((state) => !!state.form.loginResponse.userToken);
+  const isAuthenticated = useSelector((state) => !!state.form.loginResponse.userToken || !!state.form.profile.userToken)
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {

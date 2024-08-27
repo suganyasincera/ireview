@@ -77,13 +77,13 @@ const googlelogin = async(codeResponse)=>{
      localStorage.setItem('accessToken', responseData.id);
        localStorage.setItem('username', responseData.firstName);
       localStorage.setItem('storedEmail', responseData.email);
+      navigate("/Home");
       dispatch(changeProfile({
         name:responseData.firstName,
         email:responseData.email,
         userToken:responseData.id,
     
     }))
-    navigate("/Home"); 
   }else{
     Swal.fire({
       icon: 'error',
@@ -184,6 +184,7 @@ const handlePasswordChange = (e) => {
       localStorage.setItem('storedEmail', responseData.email);
       localStorage.setItem('balanceReview', responseData.balanceReview);
       localStorage.setItem('subscriptionEnds', responseData.subscriptionEnds);
+      navigate("/Home");
       dispatch(changeLoginResponse({
         name:responseData.firstName,
         email:responseData.email,
@@ -192,7 +193,7 @@ const handlePasswordChange = (e) => {
     subscriptionEnds: responseData.subscriptionEnds
     
     }));
-    navigate("/Home");
+   
       }else{
         Swal.fire({
           icon: 'error',
