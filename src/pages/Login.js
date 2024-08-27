@@ -224,6 +224,44 @@ const handlePasswordChange = (e) => {
 
 
 };
+const handleForgotPassword = async () => {
+  
+  if (email) {
+    try {
+      const response = await fetch(
+        "https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/forgotPassword",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ email: email }),
+        }
+      );
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Password reset link sent to your email.',
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to send password reset link.',
+        });
+      }
+    } catch (error) {
+      console.error("Error during forgot password:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred during forgot password request.',
+      });
+    }
+  }
+};
 const Signup=()=>{
   navigate("/Signup")
 }
@@ -304,7 +342,7 @@ const Signup=()=>{
                  />
                 </Grid>
                 <Grid item>
-                 <Link href="#" variant="body2" style={{ color: '#50C878' }}>
+                 <Link href="#" variant="body2" style={{ color: '#50C878' }}onClick={handleForgotPassword}>
                     {"Forget Password?"}
                  </Link>
                 </Grid>
