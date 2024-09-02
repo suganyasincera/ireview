@@ -10,6 +10,7 @@ import { changeApiresponse, changeFilename } from '../components/redux/FormSlice
 import * as pdfjs from "pdfjs-dist";
 import { TiDeleteOutline } from "react-icons/ti";
 import axios from 'axios';
+import Swal from 'sweetalert2';
 const workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
@@ -47,7 +48,7 @@ export default function Fileupload() {
     { label: "causes", value: 'Extract the details that provides information on causes for termination. Refine the extracted data applying the concept of MECE. Print the response in 2 parts – KeyTakeAways as bullet points in 150 words or less and Reference to parts or page numbers of the document where the information was gathered from. If relevant content is not identified, return a note to indicate no references were observed, Set the temperature to 0.' },
     { label: "notice", value: 'Extract the details that provides information on notice period. Refine the extracted data applying the concept of MECE. Print the response in 2 parts – KeyTakeAways as bullet points in 150 words or less and Reference to parts or page numbers of the document where the information was gathered from. If relevant content is not identified, return a note to indicate no references were observed, Set the temperature to 0.' },
     { label: "nonsoliicitation", value: 'Extract the details that provides information on non-solicitation. Refine the extracted data applying the concept of MECE. Print the response in 2 parts – KeyTakeAways as bullet points in 150 words or less and Reference to parts or page numbers of the document where the information was gathered from. If relevant content is not identified, return a note to indicate no references were observed, Set the temperature to 0.' },
-    { label: "termofaggreement", value: 'Extract the details that provides information on term of aggreement. Refine the extracted data applying the concept of MECE. Print the response in 2 parts – KeyTakeAways as bullet points in 150 words or less and Reference to parts or page numbers of the document where the information was gathered from. If relevant content is not identified, return a note to indicate no references were observed, Set the temperature to 0.' },
+    { label: "termofagreement", value: 'Extract the details that provides information on term of agreement. Refine the extracted data applying the concept of MECE. Print the response in 2 parts – KeyTakeAways as bullet points in 150 words or less and Reference to parts or page numbers of the document where the information was gathered from. If relevant content is not identified, return a note to indicate no references were observed, Set the temperature to 0.' },
   ];
 
   const handleDeleteFile = (fileName) => {
@@ -111,7 +112,16 @@ export default function Fileupload() {
           allText += imageData.data.text;
         }
       }
-
+      if (!allText.trim()) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Unable to Parse Document',
+          text: 'We could not extract any text from the document. Please check the file and try again.',
+        });
+        setLoading(false);
+      setButtonClicked(false);
+        return;
+      }
       console.log('Extracted Text:', allText);
       const apiUrlchatgpt = allText.length > 200000 ? `${apiUrl}/gpt/gpt41106preview` : `${apiUrl}/gpt/gpt35turbo`;
 
