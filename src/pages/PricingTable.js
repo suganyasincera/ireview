@@ -81,11 +81,13 @@ const PricingTable = () => {
                     <Col xs={8} className="description-col">
                       <h2>{plan.planName}</h2>
                       <p>{plan.description}</p>
-                      <p className="features">{plan.features}</p>
+                      {/* <p className="features">{plan.features}</p> */}
                     </Col>
                     <Col xs={3} className="price-col">
-                      <h3>{plan.price.currencySymbol}{plan.price.amount} {plan.price.currency}</h3>
-                      <Button className="buy-btn" onClick={() => handleCheckout(plan.id)}>Buy Now</Button>
+                      <h3>{plan.price.currencySymbol}{plan.price.amount} {plan.price.currency}{plan.price.label}</h3>
+                      
+                      {plan.price.label === false && (
+                      <Button className="buy-btn" onClick={() => handleCheckout(plan.id)}>Buy Now</Button>)}
                     </Col>
                   </Row>
                 </div>
