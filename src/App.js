@@ -58,7 +58,7 @@ function App() {
       <Route exact path="/PricingTable" element={<PricingTable />} />
       <Route exact path="/PricingTable/PaymentSuccess" element={<PrivateRoute><PaymentSuccess /></PrivateRoute>} />
       
-      <Route exact path="/PricingTable/PlanDetails" element={<PlanDetails />} />
+      <Route exact path="/PlanDetails" element={<PlanDetails />} />
     </Routes>
 
     </Elements>
