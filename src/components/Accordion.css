@@ -1,0 +1,16 @@
+.redHeader {
+    background-color: red !important;
+    color: white !important;
+  }
+  
+  .greenHeader {
+    background-color:#000 !important;
+    color: white !important;
+  }
+  
+  .defaultHeader {
+    background-color: white !important;
+    color:#000 !important;
+  }
+  
+  
