@@ -48,15 +48,15 @@ export default function AccordionUsage() {
             id={`panel${index + 1}-header`}
             sx={{
               backgroundColor:
-                expanded === `panel${index + 1}`
-                  ? '#50C878'
-                  : tab.label === "Non-Compete and Exclusivity Clauses" || tab.label === "Non-Solicitation"
+                tab.label === "Non-Compete and Exclusivity Clauses" || tab.label === "Non-Solicitation"
                   ? '#dc3232'
+                  : expanded === `panel${index + 1}`
+                  ? '#50C878'
                   : 'white',
               color:
-                expanded === `panel${index + 1}`
+                tab.label === "Non-Compete and Exclusivity Clauses" || tab.label === "Non-Solicitation"
                   ? 'white'
-                  : tab.label === "Non-Compete and Exclusivity Clauses" || tab.label === "Non-Solicitation"
+                  : expanded === `panel${index + 1}`
                   ? 'white'
                   : '#50C878',
             }}
