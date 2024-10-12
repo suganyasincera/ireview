@@ -18,7 +18,8 @@ function PrivacyPolicy({ showPP, handleClosePP, onAcceptPP }) {
         
 <p style={{textAlign:'end'}}>Version 01, dated:18-06-2024 </p>
 <p style={{color:"#2d3748",fontSize:15,fontWeight:700}}>1. General </p>
-<p style={{color:"#5e6670",fontSize:15,fontWeight:400}}>a. The Platforms are owned and operated by iRe-view.ai LLC. The online Platforms enable 
+<p style={{color:"#5e6670",fontSize:15,fontWeight:400}}>a. The Platforms are owned and operated by iRe-view.ai LLC.a Delaware Limited Liability Company, having its registered office at 
+Delaware, 508 Main Street,Wilmington ,Zipcode-19804. The online Platforms enable 
 users to to use artificial intelligence to review and understand the content of their contracts 
 like employment agreements, consulting agreements, terms of employment etc. effortlessly 
 with the click of a button (“Services”). 
@@ -335,7 +336,7 @@ the clauses are null and void shall have no effect on the remaining clauses of t
 Policy. </p>
 <p style={{color:"#2d3748",fontSize:15,fontWeight:700}}>11. Contact Information </p>
 <p style={{color:"#5e6670",fontSize:15,fontWeight:400}}>Any feedback or comments about this Privacy Policy is welcome and can be sent to 
-customerservice@__________.com. We will employ all commercially reasonable efforts to 
+customerservice <a href=" mailto:ireviewai11@gmail.com" >ireviewai11@gmail.com.</a>. We will employ all commercially reasonable efforts to 
 address the same. </p>
         
       </Modal.Body>

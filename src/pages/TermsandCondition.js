@@ -20,9 +20,9 @@ function TermsandCondition({ show, handleClose, onAccept }) {
           <p style={{color:"#2d3748",fontSize:15,fontWeight:700}}>
           1) General</p> 
             <p style={{color:"#5e6670",fontSize:15,fontWeight:400}}>
-            a) Thank you for visiting our Mobile Application (“Platform”). This online Platform is owned by 
+            a) Thank you for visiting our Web Application.This online Platform is owned by 
 iRe-view.ai LLC, a Delaware Limited Liability Company, having its registered office at 
-__________. Our Platform enables users to use artificial intelligence to review and 
+Delaware, 508 Main Street,Wilmington ,Zipcode-19804. Our Platform enables users to use artificial intelligence to review and 
 understand the content of their contracts like employment agreements, consulting 
 agreements, terms of employment etc. effortlessly with the click of a button. Our Platform 
 enables users to give their informed consent while entering into new contracts and 
@@ -96,7 +96,7 @@ c) Customer’s Informed, Free and Unqualified Consent allowing us to receive, s
 your information to facilitate the service desired by you- You hereby give us your informed 
 consent to receiving your Personally Identifiable Information (PII) namely their name, mobile 
 number, email ID, address etc. for the purpose of facilitating the Services desired from us by 
-You. You hereby give us your informed consent to sharing your abovementioned PII with our 
+You. You hereby give us your informed consent to sharing your above mentioned PII with our 
 service providers and the vendors who will be rendering the Services or components of the 
 Services to You. We hereby confirm that we or our subcontractors shall not use the PII 
 shared by You for any purpose other than for the facilitation of the Service to You. We 
@@ -516,7 +516,7 @@ interpreted and construed in accordance with the laws of Delaware. Any disputes 
 to the Platform shall be subject to the exclusive jurisdiction of the appropriate courts in 
 Delaware. <br/> <br/>
 d) Customer Care - In the event that You have any grievance in relation to the Platform or Our 
-Services, You may write to ____________@_______.com. Please feel free to contact Us if 
+Services, You may write to <a href=" mailto:ireviewai11@gmail.com" >ireviewai11@gmail.com.</a> Please feel free to contact Us if 
 
 You have any questions or comments on the Platform, Our Services, these Terms of Use 
 (including all inquiries related to copyright infringement) regarding these Platform.

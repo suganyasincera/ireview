@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import React from 'react'
-import Logo from './assets/ireviwelogo.png'
+import Logo from './assets/ireviwelogo.jpg'
 import { IoMdAdd, IoMdPower } from "react-icons/io";
 import PreviousResults from './PreviousResults';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ export default function Sidedrawer() {
     <div className='sidedrawer'>
  <div >
   <div className='sidemainhead'>
-    <img className='sidemainheadimg' src={Logo} alt='logoimg' />
+    <img className='sidemainheadimg'  style={{ borderRadius:50}} src={Logo} alt='logoimg' />
   <h6 className='sidemainheadimgh6'>iRe-view.ai</h6>
       </div>
 <div className='sidebuttonmain' >

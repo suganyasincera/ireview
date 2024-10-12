@@ -15,7 +15,7 @@ console.log("apipdf",apiresponse)
 
     <div className='align' style={{marginTop:10}} ref={ref}>
  
-        <img src={pdflogo}  alt='img'/>
+        <img src={pdflogo}  alt='img' style={{display:'flex',alignItems:'center',justifyContent:'center',marginLeft:70}}/>
        
       <h2 style={{display:'flex',alignItems:'center',justifyContent:'center'}}>{firstFileName}  </h2>
       <br />
