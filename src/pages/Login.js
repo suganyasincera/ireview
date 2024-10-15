@@ -109,6 +109,8 @@ export default function Login() {
         title: 'Oops...',
         text: 'An error occurred during login.',
       });
+    }finally {
+      setIsLoading(false); // Set loading state to false
     }
   };
   
@@ -116,12 +118,13 @@ export default function Login() {
       onSuccess: (codeResponse) => {
           setIsGoogleLogin(true); // Set to true when Google login is successful
           if (isTermsAccepted) {
+            setIsGoogleLogin(true)
               googlelogin(codeResponse);
           } else {
               Swal.fire({
                   icon: 'warning',
-                  title: 'Terms not accepted',
-                  text: 'Please accept the Terms and Conditions and Privacy Policy to continue.',
+                  title: 'Hey',
+                  text: 'Please accept the Terms and Conditions and Privacy Policy before login.',
               });
           }
       },
@@ -284,70 +287,24 @@ export default function Login() {
                           mx: { xs: 2, sm: 4, md: 12 },
                           display: 'flex',
                           flexDirection: 'column',
-                          alignItems: 'center',
+                      
                       }}
                   >
-                      <Typography component="h1" variant="h4" fontWeight={700}>
-                          Sign in to IRe-view
+                      <Typography component="h1" variant="h5" style={{ alignItems: 'flex-start', display: 'flex', fontSize: 32, fontWeight: 700 }}>
+                        Login
                       </Typography>
-                      <Box component="form" noValidate onSubmit={handleLogin} sx={{ mt: 1 }}>
-                          <TextField
-                              margin="normal"
-                              required
+                      <p style={{ display: 'flex', marginTop: 5 }}>
+                          Don't have an account? &nbsp;
+                          <span style={{ color: '#50C878', cursor: 'pointer' }} onClick={() => navigate("/Signup")}>
+                              Sign up
+                          </span>
+                      </p>
+                      <Button
                               fullWidth
-                              label="Email Address"
-                              name="email"
-                              value={email}
-                              onChange={handleEmailChange}
-                              autoComplete="email"
-                          />
-                          <TextField
-                              margin="normal"
-                              required
-                              fullWidth
-                              name="password"
-                              label="Password"
-                              type={showPassword ? "text" : "password"}
-                              id="password"
-                              value={password}
-                              onChange={handlePasswordChange}
-                              autoComplete="current-password"
-                              InputProps={{
-                                endAdornment: (
-                                  <IconButton
-                                    onClick={handleTogglePassword}
-                                    edge="end"
-                                  >
-                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                  </IconButton>
-                                ),
-                              }}
-                          />
-                          <FormControlLabel
-                              control={<Checkbox checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} color="primary" />}
-                              label="Remember me"
-                          />
-                          <Button
-                              type="submit"
-                              fullWidth
-                              variant="contained"
+                              variant="outlined"
                               color="primary"
-                              sx={{ mt: 3, mb: 2 }}
-                          >
-                              {isLoading ? "Signing in..." : "Sign in"}
-                          </Button>
-                          <Grid container>
-                              <Grid item xs>
-                                  <Link href="#" onClick={handleForgotPassword}>
-                                      Forgot password?
-                                  </Link>
-                              </Grid>
-                          </Grid>
-                          <Divider sx={{ my: 2 }} />
-                          <Button
-                              fullWidth
-                              variant="contained"
-                              color="primary"
+                              sx={{ mt: 7, mb: 3 }}
+                              style={{ height: 48, width: '100%', borderRadius: 4, display: 'flex', borderColor: '#DADCE0', color: '#3C4043' }}
                               startIcon={<img src={goo} alt="Google Icon" style={{ width: 20, height: 20 }} />}
                               onClick={() => {
                                   if (isTermsAccepted) {
@@ -355,16 +312,81 @@ export default function Login() {
                                   } else {
                                       Swal.fire({
                                           icon: 'warning',
-                                          title: 'Terms not accepted',
-                                          text: 'Please accept the Terms and Conditions and Privacy Policy to continue.',
+                                          title: 'Hey',
+                                          text: 'Please accept the Terms and Conditions and Privacy Policy before login.',
                                       });
                                   }
                               }}
                           >
-                              Continue with Google
+                              Sign in with Google
                           </Button>
+                          <Divider sx={{ mt: 3, mb: 3 }} style={{ color: '#707070' }}>Or Login with Email</Divider>
+                      <Box component="form" noValidate onSubmit={handleLogin} sx={{ mt: 4, alignItems: 'center', justifyContent: 'center', }}>
+                      <TextField style={{ height: 48, width: '100%', borderRadius: 5 }}
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                value={email}
+                autoComplete="email"
+                autoFocus
+                onChange={handleEmailChange} // Add this line
+              />
+                          <TextField sx={{ mt: 5 }} style={{ height: 48, width: '100%', borderRadius: 5 }}
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                value={password}
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                autoComplete="current-password"
+                onChange={handlePasswordChange} // Add this line
+                InputProps={{
+                 endAdornment: (
+                    <IconButton
+                      onClick={handleTogglePassword}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility />:<VisibilityOff />}
+                    </IconButton>
+                 )
+                }}
+              />
+              <Grid container style={{ alignItems: 'center' }} sx={{ mt: 3 }}>
+              <Grid item xs>
+              <FormControlLabel style={{ display: 'flex', color: '#2A2A2A' }}
+                    control={<Checkbox value="remember" />}
+                    label="Remember me"
+                    checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+                 />
+                </Grid>
+                <Grid item>
+                 <Link href="#" variant="body2" style={{ color: '#50C878' }}onClick={handleForgotPassword}>
+                    {"Forget Password?"}
+                 </Link>
+                </Grid>
+              </Grid>
+                          <Button
+                              type="submit"
+                              fullWidth
+                              variant="contained"
+                              color="primary"
+                              sx={{ mt: 5, mb: 2 }}
+                              style={{ backgroundColor: '#50C878', color: '#FFFFFF', height: 48, width: '100%', borderRadius: 5 }}
+                          >
+                              {isLoading ? "Logging in..." : "Login"}
+                          </Button>
+                          </Box>
+                        
+                    
+                         
                           <FormControlLabel
-                              control={<Checkbox checked={isTermsAccepted} onChange={handleAcceptTerms} />}
+                              control={<Checkbox checked={isTermsAccepted} readOnly disabled onChange={handleAcceptTerms} />}
                               label={
                                   <>
                                       I agree to the{' '}
@@ -378,8 +400,10 @@ export default function Login() {
                                   </>
                               }
                           />
+                          <TermsandCondition show={showTCModal} handleClose={handleCloseTCModal} onAccept={handleAcceptTerms} checked={isTermsAccepted} />
+                          <PrivacyPolicy showPP={showPPModal} handleClosePP={handleClosePPModal} onAcceptPP={handleAcceptTerms} checked={isTermsAccepted} />
                       </Box>
-                  </Box>
+                  
               </Grid>
           </Grid>
       </ThemeProvider>

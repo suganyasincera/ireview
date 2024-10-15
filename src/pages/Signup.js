@@ -37,6 +37,7 @@ export default function Signup() {
   const [canAcceptTerms, setCanAcceptTerms] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [ user, setUser ] = React.useState([]);
+  const [isGoogleLogin, setIsGoogleLogin] =React.useState(false);
   const navigate = useNavigate();
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
@@ -46,7 +47,7 @@ export default function Signup() {
   };
 
   const handleAcceptTerms = () => {
-    setIsTermsAccepted(true);
+    setIsTermsAccepted(!isTermsAccepted);
   };
 
   const validateEmail = (email) => {
@@ -55,24 +56,28 @@ export default function Signup() {
   };
 
   const handleOpenTCModal = () => setShowTCModal(true);
-  const handleCloseTCModal = () => {
-    setShowTCModal(false);
-    setCanAcceptTerms(true);
-  };
+  const handleCloseTCModal = () => setShowTCModal(false);
+  
   const handleOpenPPModal = () => setShowPPModal(true);
-  const handleClosePPModal = () => {
-    setShowPPModal(false);
-    setCanAcceptTerms(true);
-  };
-
+  const handleClosePPModal = () => setShowPPModal(false);
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
+      setIsGoogleLogin(true); 
       setUser(codeResponse);
-      googlelogin(codeResponse); // Call the googlelogin function here
-    },
+      if (isTermsAccepted) {
+        setIsGoogleLogin(true)
+          googlelogin(codeResponse);
+      } else {
+          Swal.fire({
+              icon: 'warning',
+              title: 'Hey',
+              text: 'Please accept the Terms and Conditions and Privacy Policy before login.',
+          });
+      }
+  },
     onError: (error) => console.log('Login Failed:', error),
   });
 const googlelogin = async(codeResponse)=>{
@@ -100,13 +105,14 @@ const googlelogin = async(codeResponse)=>{
      localStorage.setItem('accessToken', responseData.id);
        localStorage.setItem('username', responseData.firstName);
       localStorage.setItem('storedEmail', responseData.email);
-      navigate("/Home");
+     
       dispatch(changeProfile({
         name:responseData.firstName,
         email:responseData.email,
         userToken:responseData.id,
     
-    }))
+    }));
+    navigate("/Home");
   }else{
     Swal.fire({
       icon: 'error',

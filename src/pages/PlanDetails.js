@@ -3,42 +3,19 @@ import '../App.css';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Row, Col } from 'react-bootstrap';
 import { FaCheckCircle } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 import Sidedrawer from '../components/Sidedrawer';
 import axios from 'axios';
 const PlanDetails = () => {
   const navigate = useNavigate();
   const username = localStorage.getItem('username');
   const token = localStorage.getItem('accessToken');
-  const[planhistory,setPlanhistory]=useState([]);
+  const profile = useSelector((state) => state.form.getprofile);
   const handleBackToHome = () => {
     navigate('/home');
   };
   
-  const fetchResults = () => {
-    console.log('Fetching results...');
-    console.log('Token:', token);
-    
-    axios
-      .get("https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/subscriptionHistory", {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: "application/json",
-          Authorization: token,  // Ensure token is correctly fetched
-        },
-      })
-      .then((response) => {
-        console.log('API response:', response.data);
-        setPlanhistory(response.data);  // Ensure correct data structure
-      })
-      .catch((error) => {
-        console.error('Error fetching subscription history:', error);
-      });
-  };
   
-  useEffect(() => {
-    fetchResults();
-    console.log("history",planhistory)
-  }, []);
   return (
     <div className="App">
       <Row>
@@ -66,6 +43,9 @@ const PlanDetails = () => {
             </Card>
             <div className="past-history">
               <h3>Past History</h3>
+              {planhistory.length > 0 ? (
+                        planhistory.map((plan) => (
+                          <div key={plan.id}>
               <Card className="history-card">
                 <Card.Body>
                   <h4>For the price of a lunch</h4>
@@ -75,6 +55,11 @@ const PlanDetails = () => {
                   <p>Total Amount: $17.99</p>
                 </Card.Body>
               </Card>
+              </div>))):(<div>
+                        <p><strong>Plan:</strong>Free</p>
+            
+                      <p><strong>Total Amount:</strong>$0</p>
+                      </div>)}
               {/* Repeat the above Card component for each history entry */}
             </div>
             </div>

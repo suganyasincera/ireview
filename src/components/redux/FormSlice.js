@@ -8,7 +8,7 @@ const FormSlice = createSlice({
  message:[{}],
  alltext:"",
  apiresponse:[{}],
- getprofile:{},
+ getprofile:[{}],
  profile:{
   name:"",
   email:"",

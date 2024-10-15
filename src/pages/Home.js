@@ -1,33 +1,64 @@
 import '../App.css';
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Sidedrawer from '../components/Sidedrawer';
 import Fileupload from '../components/Fileupload';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as pdfjs from "pdfjs-dist";
+import { useDispatch, useSelector } from 'react-redux';
+import {changeGetProfile } from '../components/redux/FormSlice';
 import { Navigation } from '@mui/icons-material';
-
+import axios from 'axios';
 const workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 function Home() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const[planhistory,setPlanhistory]=useState([]);
   const profile = useSelector((state) => state.form.profile);
   const login = useSelector((state) => state.form.loginResponse);
   const getprofile = useSelector((state) => state.form.getprofile);
   const username = localStorage.getItem('username');
-
+  const token = localStorage.getItem('accessToken');
   console.log("profile", profile);
   console.log("login", login);
+  const fetchResults = () => {
 
+    
+    axios
+      .get("https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/subscriptionHistory", {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: "application/json",
+          Authorization: token,  // Ensure token is correctly fetched
+        },
+      })
+      .then((response) => {
+        console.log('API response:', response.data);
+        setPlanhistory(response.data);  
+        dispatch(changeGetProfile(response.data));// Ensure correct data structure
+      })
+      .catch((error) => {
+        console.error('Error fetching subscription history:', error);
+      });
+  };
+  
+  useEffect(() => {
+    fetchResults();
+    console.log("history",planhistory)
+  }, []);
+  const highestPlan = planhistory.length > 0 ? planhistory.reduce((prev, current) => {
+    return (prev.id > current.id) ? prev : current;
+  }) : null;
+
+  // Format the subscription start date
+  const formattedDate = highestPlan ? new Date(highestPlan.subscriptionStarts).toLocaleDateString() : "Not Available";
   // Default values in case any of these are null
-  const subscriptionPlan = getprofile?.subscriptionPlan || "Free";
-  const subscriptionStarts = getprofile?.subscriptionStarts || "Not Available";
-  const totalAmount = getprofile?.totalAmount || "$0.00";
+
 
   return (
     <div className='App'>
@@ -50,11 +81,21 @@ function Home() {
                   <Dropdown.Item href="#/action-1">
                     <div className="plan-details">
                       <h4>Plan Details</h4>
-                      <p><strong>Plan:</strong> {subscriptionPlan}</p>
-                      <p><strong>Purchase Date & Time:</strong> {subscriptionStarts}</p>
-                      <p><strong>Total Amount:</strong> {totalAmount}</p>
-                      <Dropdown.Divider />
-                      <h4 onClick={() => { navigate("/PlanDetails") }}>Plan History</h4>
+                      {highestPlan ? (
+                        <div>
+                      <p><strong>Plan:</strong> {highestPlan.subscriptionPlan}</p>
+                      <p><strong>Purchase Date & Time:</strong>{formattedDate}</p>
+                      <p><strong>Total Amount:</strong> {highestPlan.price}</p>
+                      </div>
+                    ) : (
+                      <div>
+                        <p><strong>Plan:</strong> Free</p>
+                        <p><strong>Total Amount:</strong> $0</p>
+                      </div>
+                    )}
+                      {/* <Dropdown.Divider />
+                      
+                      <h4 onClick={() => { navigate("/PlanDetails") }}>Plan History</h4> */}
                     </div>
                   </Dropdown.Item>
                   <Dropdown.Divider />
