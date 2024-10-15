@@ -6,7 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import Tesseract from 'tesseract.js';
 import Spinner from "../components/Spinner";
 import { useDispatch, useSelector } from 'react-redux';
-import { changeApiresponse, changeFilename } from '../components/redux/FormSlice';
+import { changeApiresponse, changeFilename,changeGetProfile } from '../components/redux/FormSlice';
 import * as pdfjs from "pdfjs-dist";
 import { TiDeleteOutline } from "react-icons/ti";
 import axios from 'axios';
@@ -70,14 +70,19 @@ export default function Fileupload() {
       })
       .then((response) => {
         const profileArray = response.data;
+      
         const profileObject = profileArray.reduce((acc, item) => {
           return {
             ...acc,
             subscriptionEnds: item.subscriptionEnds,
             balanceReview: item.balanceReview,
+            subscriptionPlan:item.subscriptionPlan,
+            email:item.email,
+            subscriptionStarts:item.subscriptionStarts
           };
         }, {});
         setProfile(profileObject);
+        dispatch(changeGetProfile(profileObject));
       })
       .catch((error) => console.error('Error fetching company data:', error));
   };
@@ -211,7 +216,7 @@ export default function Fileupload() {
 
   return (
     <div className='fileupload'>
-      <h4 className='uploadh4'>Please submit your employment contract below.</h4>
+      <h4 className='uploadh4'>Upload your contract here.</h4>
       <Card className='uploadcard' div {...getRootProps()}>
         <input {...getInputProps()} />
         <img src={Upload} alt='uplimg' />

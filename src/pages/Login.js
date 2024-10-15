@@ -294,7 +294,7 @@ const Signup=()=>{
             <p style={{ display: 'flex', marginTop: 5 }}>Don't have an account ? &nbsp;<span style={{ color: '#50C878',cursor:'pointer' }} onClick={()=> navigate("/Signup")}> Sign up </span></p>
             <Button fullWidth
                variant="outlined" href="#outlined-buttons" sx={{ mt: 7, mb: 3, }} style={{ height: 48, width: '100%', borderRadius: 4, display: 'flex', borderColor: '#DADCE0', color: '#3C4043' }} onClick={() => login()}>
-              <img src={goo}  alt='goole' style={{ marginRight: '10px', color: '#DB4437' }} /> Sign-in with Google
+              <img src={goo}  alt='google' style={{ marginRight: '10px', color: '#DB4437' }} /> Sign-in with Google
             </Button>
             <Divider sx={{ mt: 3, mb: 3 }} style={{ color: '#707070' }}>Or Login with Email</Divider>
             <Box component="form" noValidate onSubmit={handleLogin} sx={{ mt: 4, alignItems: 'center', justifyContent: 'center', }}>

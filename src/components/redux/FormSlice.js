@@ -8,6 +8,7 @@ const FormSlice = createSlice({
  message:[{}],
  alltext:"",
  apiresponse:[{}],
+ getprofile:{},
  profile:{
   name:"",
   email:"",
@@ -39,6 +40,10 @@ const FormSlice = createSlice({
             console.log(action.payload)
               state.apiresponse = action.payload   
             },
+            changeGetProfile: (state,action)=> {
+              console.log(action.payload)
+                state.getprofile = action.payload   
+              },
             changeProfile: (state,action)=> {
               console.log(action.payload)
                 state.profile = action.payload   
@@ -63,7 +68,7 @@ const FormSlice = createSlice({
 
 });
 
-export const { changeMessage,changeText,changeApiresponse,changeProfile,changeLoginResponse,changePreviousresponse,changePreviousid,
+export const { changeMessage,changeText,changeApiresponse,changeGetProfile,changeProfile,changeLoginResponse,changePreviousresponse,changePreviousid,
 changeFilename} = FormSlice.actions;
 
 export default FormSlice.reducer;

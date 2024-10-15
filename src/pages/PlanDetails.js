@@ -1,16 +1,35 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import '../App.css';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Row, Col } from 'react-bootstrap';
 import { FaCheckCircle } from 'react-icons/fa';
 import Sidedrawer from '../components/Sidedrawer';
+import axios from 'axios';
 const PlanDetails = () => {
   const navigate = useNavigate();
   const username = localStorage.getItem('username');
+  const token = localStorage.getItem('accessToken');
+  const[planhistory,setPlanhistory]=useState([]);
   const handleBackToHome = () => {
     navigate('/home');
   };
-
+  
+  const fetchResults = () => {
+    axios
+      .get("https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/subscriptionHistory", {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: "application/json",
+          Authorization: token,
+        },
+      })
+      .then((response) => setPlanhistory(response.data))
+      .catch((error) => console.error('Error fetching company data:', error));
+  };
+  useEffect(() => {
+    fetchResults();
+    console.log("history",planhistory)
+  }, []);
   return (
     <div className="App">
       <Row>

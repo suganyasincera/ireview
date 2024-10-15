@@ -16,8 +16,10 @@ function Home() {
   const navigate = useNavigate();
   const profile = useSelector((state) => state.form.profile);
   const login = useSelector((state) => state.form.loginResponse);
+  const getprofile = useSelector((state) => state.form.getprofile);
   console.log("profile",profile);
   console.log("login",login);
+
         const username = localStorage.getItem('username');
       
 
@@ -48,9 +50,9 @@ function Home() {
                   <Dropdown.Item href="#/action-1">
                     <div className="plan-details">
                       <h4>Plan Details</h4>
-                      <p><strong>Plan:</strong> For the price of a lunch</p>
-                      <p><strong>Reference Number:</strong> 233 256093212</p>
-                      <p><strong>Purchase Date & Time:</strong> 30-07-2024, 18:42:16</p>
+                      <p><strong>Plan:</strong>{getprofile.subscriptionPlan}</p>
+                  
+                      <p><strong>Purchase Date & Time:</strong> {getprofile.subscriptionStarts}</p>
                       <p><strong>Total Amount:</strong> $17.99</p>
                       <Dropdown.Divider />
                       <h4 onClick={()=>{navigate("/PlanDetails")}}>Plan History</h4>

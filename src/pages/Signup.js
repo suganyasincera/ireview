@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import '../App.css';
+import Swal from 'sweetalert2';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -18,11 +19,14 @@ import { useNavigate } from 'react-router-dom';
 import PasswordStrengthBar from 'react-password-strength-bar';
 import TermsandCondition from './TermsandCondition';
 import PrivacyPolicy from './PrivacyPolicy';
-
+import { useGoogleLogin} from '@react-oauth/google';
+import { changeProfile,changeLoginResponse } from '../components/redux/FormSlice';
+import { useDispatch } from 'react-redux';
 const defaultTheme = createTheme();
 
 export default function Signup() {
   const apiUrl = process.env.REACT_APP_BASE_URL;
+  const dispatch=useDispatch();
   const [showPassword, setShowPassword] = React.useState(false);
   const [formErrors, setFormErrors] = React.useState({});
   const [passwordStrength, setPasswordStrength] = React.useState(0);
@@ -31,6 +35,8 @@ export default function Signup() {
   const [isTermsAccepted, setIsTermsAccepted] = React.useState(false);
   const [password, setPassword] = React.useState('');
   const [canAcceptTerms, setCanAcceptTerms] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [ user, setUser ] = React.useState([]);
   const navigate = useNavigate();
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
@@ -62,6 +68,74 @@ export default function Signup() {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      setUser(codeResponse);
+      googlelogin(codeResponse); // Call the googlelogin function here
+    },
+    onError: (error) => console.log('Login Failed:', error),
+  });
+const googlelogin = async(codeResponse)=>{
+  setIsLoading(true); // Set loading state to true
+  try {
+    const response = await fetch(
+     "https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/googleSignIn",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+
+        },
+        body: JSON.stringify({"token":codeResponse.access_token}),
+      }
+    );
+    console.log("res",response)
+    if (response.ok) {
+    
+
+      const responseData = await response.json();
+      if(responseData.id!=null){
+      console.log("response",responseData);
+     localStorage.setItem('accessToken', responseData.id);
+       localStorage.setItem('username', responseData.firstName);
+      localStorage.setItem('storedEmail', responseData.email);
+      navigate("/Home");
+      dispatch(changeProfile({
+        name:responseData.firstName,
+        email:responseData.email,
+        userToken:responseData.id,
+    
+    }))
+  }else{
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'This email is already registered \n please login using password',
+    });
+  
+  }
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Invalid login',
+      });
+    // Show an alert for invalid login
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'An error occurred during login',
+    });
+    
+  } finally {
+    setIsLoading(false); // Set loading state to false
+  }
+}
+console.log("user",user);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -140,7 +214,7 @@ export default function Signup() {
               Sign Up
             </Typography>
             <p style={{ display: 'flex', color: '#707070', marginTop: 5 }}>Already have an account ?&nbsp; <span style={{ color: '#50C878', cursor: "pointer" }} onClick={() => navigate("/")}>Login</span></p>
-            <Button variant="outlined" href="#outlined-buttons" sx={{ mt: 5, }} style={{ height: 48, width: '100%', borderRadius: 4, display: 'flex', borderColor: '#DADCE0', color: '#3C4043' }}>
+            <Button variant="outlined" href="#outlined-buttons" sx={{ mt: 5, }} style={{ height: 48, width: '100%', borderRadius: 4, display: 'flex', borderColor: '#DADCE0', color: '#3C4043' }}onClick={() => login()}>
               <img src={goo} alt='google' style={{ marginRight: '10px', color: '#DB4437' }} />  Sign-in with Google
             </Button>
             <Divider sx={{ mt: 5, mb: 1 }} style={{ color: '#707070' }}>Or Sign Up with Email</Divider>

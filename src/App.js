@@ -16,7 +16,7 @@ import LoginGoogle from './pages/LoginGoogle';
 import PrivateRoute from './pages/PrivateRoute';
 import PricingTable from './pages/PricingTable';
 import PaymentSuccess from './pages/PaymentSuccess';
-
+import Signupgoogle from './pages/Signupgoogle';
 import PlanDetails from './pages/PlanDetails';
 
 import { useSelector } from 'react-redux';
@@ -44,6 +44,7 @@ function App() {
   
     <Routes>
      <Route exact path='/' element={<LoginGoogle/>} />
+     <Route exact path='/Signup' element={<Signupgoogle/>} />
       <Route exact path='/Home' element={
       <PrivateRoute>
       <Home/>
