@@ -15,17 +15,26 @@ const PlanDetails = () => {
   };
   
   const fetchResults = () => {
+    console.log('Fetching results...');
+    console.log('Token:', token);
+    
     axios
       .get("https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/subscriptionHistory", {
         headers: {
           'Content-Type': 'application/json',
           Accept: "application/json",
-          Authorization: token,
+          Authorization: token,  // Ensure token is correctly fetched
         },
       })
-      .then((response) => setPlanhistory(response.data))
-      .catch((error) => console.error('Error fetching company data:', error));
+      .then((response) => {
+        console.log('API response:', response.data);
+        setPlanhistory(response.data);  // Ensure correct data structure
+      })
+      .catch((error) => {
+        console.error('Error fetching subscription history:', error);
+      });
   };
+  
   useEffect(() => {
     fetchResults();
     console.log("history",planhistory)
