@@ -53,8 +53,8 @@ function Home() {
                       <p><strong>Plan:</strong> {subscriptionPlan}</p>
                       <p><strong>Purchase Date & Time:</strong> {subscriptionStarts}</p>
                       <p><strong>Total Amount:</strong> {totalAmount}</p>
-                      {/* <Dropdown.Divider />
-                      <h4 onClick={() => { navigate("/PlanDetails") }}>Plan History</h4> */}
+                      <Dropdown.Divider />
+                      <h4 onClick={() => { navigate("/PlanDetails") }}>Plan History</h4>
                     </div>
                   </Dropdown.Item>
                   <Dropdown.Divider />
