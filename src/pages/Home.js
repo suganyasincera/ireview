@@ -26,11 +26,12 @@ function Home() {
   const token = localStorage.getItem('accessToken');
   console.log("profile", profile);
   console.log("login", login);
+  const apiUrl = process.env.REACT_APP_BASE_URL;
   const fetchResults = () => {
 
     
     axios
-      .get("https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/subscriptionHistory", {
+      .get(apiUrl+"/userDetails/subscriptionHistory", {
         headers: {
           'Content-Type': 'application/json',
           Accept: "application/json",
@@ -46,17 +47,28 @@ function Home() {
         console.error('Error fetching subscription history:', error);
       });
   };
-  
+ 
   useEffect(() => {
     fetchResults();
-    console.log("history",planhistory)
-  }, []);
+  console.log("history",planhistory);
+}, []);
+  
   const highestPlan = planhistory.length > 0 ? planhistory.reduce((prev, current) => {
     return (prev.id > current.id) ? prev : current;
   }) : null;
 
   // Format the subscription start date
-  const formattedDate = highestPlan ? new Date(highestPlan.subscriptionStarts).toLocaleDateString() : "Not Available";
+  const formattedDate = highestPlan 
+  ? (() => {
+      const date = new Date(highestPlan.subscriptionStarts);
+      const day = date.getDate(); // Get the day
+      const month = date.toLocaleString('en-GB', { month: 'short' }); // Get the month in short format
+      const year = date.getFullYear(); // Get the full year
+      return `${day} - ${month} - ${year}`; // Concatenate with spaces and dashes
+    })() 
+  : "Not Available";
+
+
   // Default values in case any of these are null
 
 
@@ -93,9 +105,9 @@ function Home() {
                         <p><strong>Total Amount:</strong> $0</p>
                       </div>
                     )}
-                      {/* <Dropdown.Divider />
+                      <Dropdown.Divider />
                       
-                      <h4 onClick={() => { navigate("/PlanDetails") }}>Plan History</h4> */}
+                      <h4 onClick={() => { navigate("/PlanDetails") }}>Plan History</h4>
                     </div>
                   </Dropdown.Item>
                   <Dropdown.Divider />

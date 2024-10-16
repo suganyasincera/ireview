@@ -61,7 +61,7 @@ export default function Fileupload() {
   };
   const fetchResults = () => {
     axios
-      .get("https://1vfng64njh.execute-api.us-west-1.amazonaws.com/devApi/userDetails/getProfile", {
+      .get(apiUrl+"/userDetails/getProfile", {
         headers: {
           'Content-Type': 'application/json',
           Accept: "application/json",
